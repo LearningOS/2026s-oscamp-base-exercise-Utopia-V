@@ -47,9 +47,9 @@ jobs:
           run_test() {
             local pkg=$1 target=$2
             if [ "$target" = "riscv64" ]; then
-              cargo test -p "$pkg" --target "$RISCV64_TARGET" --quiet
+              cargo test -p "$pkg" --target "$RISCV64_TARGET" --quiet 2>/dev/null
             else
-              cargo test -p "$pkg" --quiet
+              cargo test -p "$pkg" --quiet 2>/dev/null
             fi
           }
 

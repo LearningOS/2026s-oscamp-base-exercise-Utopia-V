@@ -142,7 +142,7 @@ impl Scheduler {
         let aligned_sp = (stack_top - 16) & !15;
         let mut ctx = TaskContext::default();
         ctx.ra = thread_wrapper as *const () as u64;
-        ctx.sp = aligned_sp;
+        ctx.sp = aligned_sp as u64;
         self.threads.push(GreenThread {
             ctx,
             state: ThreadState::Ready,
@@ -192,8 +192,8 @@ impl Scheduler {
 
         unsafe {
             switch_context(
-                self.threads[old].ctx.as_mut_ptr(),
-                self.threads[next].ctx.as_ptr(),
+                &mut self.threads[old].ctx,
+                &self.threads[next].ctx,
             );
         }
     }
