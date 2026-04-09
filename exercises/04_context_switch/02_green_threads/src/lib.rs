@@ -74,7 +74,7 @@ extern "C" fn thread_wrapper() {
 ///
 /// Must be `#[unsafe(naked)]` to prevent the compiler from generating a prologue/epilogue.
 #[unsafe(naked)]
-unsafe extern "C" fn switch_context(_old: &mut TaskContext, _new: &TaskContext) {
+unsafe extern "C" fn switch_context(_old: *mut TaskContext, _new: *const TaskContext) {
     naked_asm!(
         "sd sp, 0(a0)",
         "sd ra, 8(a0)",
@@ -192,8 +192,8 @@ impl Scheduler {
 
         unsafe {
             switch_context(
-                &mut self.threads[old].ctx,
-                &self.threads[next].ctx,
+                self.threads[old].ctx.as_mut_ptr(),
+                self.threads[next].ctx.as_ptr(),
             );
         }
     }
