@@ -143,12 +143,12 @@ impl Scheduler {
         let mut ctx = TaskContext::default();
         ctx.ra = thread_wrapper as *const () as u64;
         ctx.sp = aligned_sp;
-        self.threads.push(GreenThreads {
+        self.threads.push(GreenThread {
             ctx,
             state: ThreadState::Ready,
             _stack: Some(buf),
-            entry:Some(entry),
-        })
+            entry: Some(entry),
+        });
     }
 
     /// Run the scheduler until all threads (except the main one) are `Finished`.

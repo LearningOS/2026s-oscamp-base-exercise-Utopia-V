@@ -8,6 +8,8 @@
 //! - `compare_exchange` lock‑free primitive
 //! - `Ordering` memory ordering
 
+use std::sync::atomic::{AtomicU64, Ordering};
+
 pub struct AtomicCounter {
     value: AtomicU64,
 }
